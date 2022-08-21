@@ -23,8 +23,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/pendaftaran/{pilihan}',  [HomeController::class, 'checkPilihan']);
+Route::get('/pendaftaran/cekpilihan/{pilihan}',  [HomeController::class, 'checkPilihan']);
 Route::post('/pendaftaran',  [HomeController::class, 'store']);
+Route::get('/pendaftaran/verified',  [HomeController::class, 'verified']);
 Route::get('/pendaftaran/pembayaran', function () {
     return view('pembayaran');
 });

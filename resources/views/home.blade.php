@@ -84,10 +84,10 @@ function checkradio(){
     const status2 = document.querySelector('#status2');
     
     if(status1.checked == true){
-        var url = "/pendaftaran/"+status1.value;
+        var url = "/pendaftaran/cekpilihan/"+status1.value;
     }
     if(status2.checked == true){
-        var url = "/pendaftaran/"+status2.value;
+        var url = "/pendaftaran/cekpilihan/"+status2.value;
     }
     fetch(url)
     .then(response => response.json())

@@ -1,7 +1,8 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Selamat Datang, {{ auth()->user()->name }}</h1>
-    </div>
+<h5 class="mt-5 mb-5" align="center">Selamat Datang, {{ auth()->user()->name }}</h5>
+<div align="center">
+  <img src="/img/iropin50th.png" alt="" width="500"><img src="/img/iropin.png" alt="" width="400">
+</div>
 @endsection

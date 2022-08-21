@@ -62,7 +62,6 @@ class HomeController extends Controller
         $randomnumber = mt_rand(100,999);
         $validatedData['totalbayar'] = $harga + $randomnumber;
         Peserta::create($validatedData);
-        //return redirect('/pendaftaran/finish')->with('success','Pendaftaran Sukses! Terima Kasih.');
         
         //2. VALIDASI PEMBAYARAN
         \Midtrans\Config::$serverKey = 'SB-Mid-server-MYkfBbwTKoYZOVi2ys6Rdck9';
@@ -132,13 +131,18 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Peserta $peserta)
     {
-        //
+        Peserta::destroy($peserta->id);
+        return redirect('/dashboard/peserta')->with('success', 'Peserta sukses dihapus!');
     }
 
     public function checkPilihan($pilihan){
         $pilihans = Pilihan::where('jenis', $pilihan)->get();
         return response()->json(['pilihans' => $pilihans]);
+    }
+
+    public function verified(){
+        return redirect('/pendaftaran/finish')->with('success','Pendaftaran & Pembayaran Sukses! Terima Kasih.');
     }
 }
