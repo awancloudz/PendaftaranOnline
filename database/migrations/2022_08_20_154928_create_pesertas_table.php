@@ -24,6 +24,7 @@ class CreatePesertasTable extends Migration
             $table->string('asalpengcab');
             $table->string('provinsi');
             $table->boolean('statusbayar')->default(false);
+            $table->double('totalbayar');
             $table->timestamps();
         });
     }

@@ -23,10 +23,13 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/kategori/{jenis}',  [HomeController::class, 'checkPilihan']);
-Route::post('/home',  [HomeController::class, 'store']);
-Route::get('/pembayaran', function () {
+Route::get('/pendaftaran/{pilihan}',  [HomeController::class, 'checkPilihan']);
+Route::post('/pendaftaran',  [HomeController::class, 'store']);
+Route::get('/pendaftaran/pembayaran', function () {
     return view('pembayaran');
+});
+Route::get('/pendaftaran/finish', function () {
+    return view('finish');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');

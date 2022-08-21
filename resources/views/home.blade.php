@@ -4,7 +4,7 @@
 <h1 class="mb-3 text-center">Pendaftaran Peserta</h1>
 <div class="row justify-content-center mb-3">
     <div class="col-lg-8 mb-3">
-        <form method="post" action="/home">
+        <form method="post" action="/pendaftaran">
             @csrf
             <div class="mb-3">
                 <label for="nama" class="form-label"><b>Nama Lengkap</b></label>
@@ -72,9 +72,8 @@
                 </div>
                 <label for="pilihan" class="form-label"><b>Pilihan Jadwal & Harga</b></label>
                 <div id="selectpilihan"></div>
-                <div id="harga"></div>
             </div>
-            <button type="submit" class="btn btn-primary">Daftar</button>
+            <button type="submit" class="btn btn-primary">Lanjut ke Pembayaran</button>
         </form>    
     </div>
 </div>
@@ -85,10 +84,10 @@ function checkradio(){
     const status2 = document.querySelector('#status2');
     
     if(status1.checked == true){
-        var url = "/kategori/"+status1.value;
+        var url = "/pendaftaran/"+status1.value;
     }
     if(status2.checked == true){
-        var url = "/kategori/"+status2.value;
+        var url = "/pendaftaran/"+status2.value;
     }
     fetch(url)
     .then(response => response.json())
@@ -106,6 +105,7 @@ function checkradio(){
     })
     .catch(err => console.log(err))
 }
+
 //FORMAT RUPIAH
 function rupiah(nStr) {
    nStr += '';

@@ -34,7 +34,7 @@
                     <td><h5>: Lunas</h5></td>
                 @endif
                 </tr>
-                <tr><td><b></b></td><td></td></tr>
+                <tr><td><h5>Total Bayar</h5></td><td><h5>: @currency($peserta->totalbayar)</h5></td></tr>
             </table>
         </div>
     </div>

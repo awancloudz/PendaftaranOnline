@@ -16,13 +16,14 @@ class PesertaFactory extends Factory
     {
         return [
             'pilihan_id' => mt_rand(1,6),
-            'kodepeserta' => Str::random(5).'-'.$this->faker->numerify('############'),
+            'kodepeserta' => Str::random(3).'-'.$this->faker->numerify('##########'),
             'nama' => $this->faker->name(),
             'nohandphone' => $this->faker->numerify('####-####-####'),
             'email' => $this->faker->unique()->safeEmail(),
             'nostr' => $this->faker->numerify('############'),
-            'asalpengcab' => 'test',
-            'provinsi' => 'Jateng'
+            'asalpengcab' => 'Semarang',
+            'provinsi' => 'Jateng',
+            'totalbayar' => $this->faker->numerify('######')
         ];
     }
 }

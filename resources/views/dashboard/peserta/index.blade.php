@@ -17,10 +17,12 @@
           <thead>
             <tr>
               <th scope="col">#</th>
+              <th scope="col">Kode Peserta</th>
               <th scope="col">Nama</th>
               <th scope="col">No.Handphone</th>
               <th scope="col">Email</th>
               <th scope="col">Status Bayar</th>
+              <th scope="col">Total Bayar</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -29,6 +31,7 @@
             <tr>
                 {{-- <td>{{ $loop->iteration }}</td> --}}
                 <td>{{ $peserta->id }}</td>
+                <td>{{ $peserta->kodepeserta }}</td>
                 <td>{{ $peserta->nama }}</td>
                 <td>{{ $peserta->nohandphone }}</td>
                 <td>{{ $peserta->email }}</td>
@@ -37,6 +40,7 @@
                 @else
                 <td>Lunas</td>
                 @endif
+                <td>@currency($peserta->totalbayar)</td>
                 <td>
                     <a href="/dashboard/peserta/{{ $peserta->id }}" class="badge bg-info"><span data-feather="eye"></span></a>
                     {{-- <a href="/dashboard/peserta/{{ $peserta->id }}/edit" class="badge bg-warning"><span data-feather="edit"></span></a> --}}
