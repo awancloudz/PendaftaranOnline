@@ -36,9 +36,9 @@
                 <td>{{ $peserta->nohandphone }}</td>
                 <td>{{ $peserta->email }}</td>
                 @if($peserta->statusbayar == 0)
-                <td>Belum</td>
+                <td class="text-danger">Belum</td>
                 @else
-                <td>Lunas</td>
+                <td class="text-success">Lunas <a href="/dashboard/peserta/invoice/{{ $peserta->kodepeserta }}" class="badge bg-success"><span data-feather="file-text"></span></a></td>
                 @endif
                 <td>@currency($peserta->totalbayar)</td>
                 <td>

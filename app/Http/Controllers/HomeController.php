@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pilihan;
 use App\Models\Peserta;
+use App\Models\Notifikasi;
+use DateTime;
 
 class HomeController extends Controller
 {
@@ -13,8 +15,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         //
     }
 
@@ -23,26 +24,28 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         //1.VALIDASI DATA PESERTA
+        $date   = new DateTime(); //this returns the current date time
+        $result = $date->format('Y-m-d-H-i-s');
+        $krr    = explode('-', $result);
+        $result = implode("", $krr);
+
         $kodeakhir = Peserta::orderBy('id', 'desc')->first();
-        if($kodeakhir->count() > 0){
-            $kodepeserta = "SMG-". sprintf("%010s", $kodeakhir->id + 1);
+        if($kodeakhir != null){
+            $kodepeserta = $kodeakhir->id + 1 . $result;
         }
         else{
-            $kodepeserta = "SMG-0000000001";
+            $kodepeserta = "1". $result;
         }
 
         $validatedData = $request->validate([
@@ -59,6 +62,7 @@ class HomeController extends Controller
 
         $pilihans = Pilihan::where('id', $validatedData['pilihan_id'])->get();
         $harga = $pilihans[0]->harga;
+        $deskripsi = "[ " . $pilihans[0]->jenis . " ] " . $pilihans[0]->deskripsi;
         $randomnumber = mt_rand(100,999);
         $validatedData['totalbayar'] = $harga + $randomnumber;
         Peserta::create($validatedData);
@@ -82,6 +86,12 @@ class HomeController extends Controller
                 'email' => $validatedData['email'],
                 'phone' => $validatedData['nohandphone'],
             ),
+            'item_details' => array(
+                ['id' => 1,
+                'price' => $validatedData['totalbayar'],
+                'quantity' => 1,
+                'name' => $deskripsi],
+            ),
         );
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         $validatedData['snapToken'] = $snapToken;
@@ -97,8 +107,7 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id){
         //
     }
 
@@ -108,8 +117,7 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id){
         //
     }
 
@@ -120,8 +128,7 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         //
     }
 
@@ -131,10 +138,8 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Peserta $peserta)
-    {
-        Peserta::destroy($peserta->id);
-        return redirect('/dashboard/peserta')->with('success', 'Peserta sukses dihapus!');
+    public function destroy($id){
+        
     }
 
     public function checkPilihan($pilihan){
@@ -143,6 +148,29 @@ class HomeController extends Controller
     }
 
     public function verified(){
-        return redirect('/pendaftaran/finish')->with('success','Pendaftaran & Pembayaran Sukses! Terima Kasih.');
+        return redirect('/pendaftaran/finish')->with('success','Pendaftaran & Pembayaran Sukses, Bukti Pembayaran akan dikirim via Email. Terima Kasih.');
+    }
+
+    public function notifikasi(Request $request){
+        //1. Simpan notifikasi pembayaran | buat database notapembayaran
+        $vanumber = $request->input('va_numbers');
+        $order_id = $request->input('order_id');
+        $status = $request->input('transaction_status');
+        if($vanumber != ''){
+            $request['va_number'] = $request->input('va_numbers.0.va_number');
+            $request['bank'] = $request->input('va_numbers.0.bank');
+        }
+        $notifikasi = $request->all();
+        Notifikasi::create($notifikasi);
+
+        //2. update data peserta | set status sudah bayar
+        if($status == "settlement"){
+            $datapeserta = Peserta::where('kodepeserta', $order_id)->get();
+            foreach($datapeserta as $peserta){
+                $peserta->statusbayar = 1;
+                $peserta->update();
+            }
+        }
+        return "Notifikasi Sukses!";
     }
 }

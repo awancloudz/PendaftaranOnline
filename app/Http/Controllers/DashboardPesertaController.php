@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Peserta;
+use App\Models\Notifikasi;
 
 class DashboardPesertaController extends Controller
 {
@@ -15,7 +16,7 @@ class DashboardPesertaController extends Controller
     public function index()
     {
         return view('dashboard.peserta.index', [
-            'pesertas' => Peserta::paginate(15)
+            'pesertas' => Peserta::latest()->paginate(15)
         ]);
     }
 
@@ -53,7 +54,18 @@ class DashboardPesertaController extends Controller
             'peserta' => $peserta
         ]);
     }
-
+    public function showinvoice($id)
+    {
+        $invoices = Notifikasi::where('order_id', $id)->where('transaction_status','settlement')->get();
+        if($invoices->count() > 0){
+            return view('dashboard.peserta.invoice', [
+                'invoices' => $invoices
+            ]);
+        }
+        else{
+            return "<h1 align='center'>Data tidak ada!</h1>";
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -83,8 +95,9 @@ class DashboardPesertaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($peserta)
     {
-        //
+        Peserta::destroy($peserta);
+        return redirect('/dashboard/peserta')->with('success', 'Peserta sukses dihapus!');
     }
 }

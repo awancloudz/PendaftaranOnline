@@ -11,7 +11,9 @@
                 @csrf
                 <button class="btn btn-danger border-0" onclick="return confirm('Yakin menghapus data?')"><span data-feather="x-circle"></span> Delete</button>
             </form>
-        
+            @if($peserta->statusbayar == 1)
+            <a href="/dashboard/peserta/invoice/{{ $peserta->kodepeserta }}" class="btn btn-warning"><span data-feather="file-text"></span> Invoice</a>
+            @endif
             <table class="table table-striped table-md">
                 <tr><td colspan="2" align="center">
                     <?php
@@ -19,7 +21,13 @@
                     ?>
                     {{ $peserta->kodepeserta }}
                 </td></tr>
-                <tr><td colspan="2" align="center"><h1 class="mb-3 mt-3">{{ $peserta->nama }}</h1></td></tr>
+                <tr><td colspan="2" align="center"><h1 class="mb-3 mt-3">{{ $peserta->nama }}
+                @if($peserta->statusbayar == 0)
+                    <span class="badge bg-danger">Belum Lunas</span>
+                @else
+                    <span class="badge bg-success">Lunas</span>
+                @endif
+                </h1></td></tr>
                 <tr><td><h5>Kode Peserta</h5></td><td><h5>: {{ $peserta->kodepeserta }}</h5></td></tr>
                 <tr><td><h5>No.Handphone</h5></td><td><h5>: {{ $peserta->nohandphone }}</h5></td></tr>
                 <tr><td><h5>Email</h5></td><td><h5>: {{ $peserta->email }}</h5></td></tr>

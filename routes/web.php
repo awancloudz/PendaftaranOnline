@@ -26,6 +26,7 @@ Route::get('/', function () {
 Route::get('/pendaftaran/cekpilihan/{pilihan}',  [HomeController::class, 'checkPilihan']);
 Route::post('/pendaftaran',  [HomeController::class, 'store']);
 Route::get('/pendaftaran/verified',  [HomeController::class, 'verified']);
+Route::post('/pendaftaran/notifikasi',  [HomeController::class, 'notifikasi']);
 Route::get('/pendaftaran/pembayaran', function () {
     return view('pembayaran');
 });
@@ -42,3 +43,4 @@ Route::get('/dashboard', function(){
 })->middleware('auth');
 
 Route::resource('/dashboard/peserta', DashboardPesertaController::class)->middleware('auth');
+Route::get('/dashboard/peserta/invoice/{id}', [DashboardPesertaController::class, 'showinvoice'])->middleware('auth');

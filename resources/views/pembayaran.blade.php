@@ -17,13 +17,13 @@
       <div class="col-lg-8 mb-3">
         <div class="card text-center">
           <div class="card-header">
-            <h5 class="card-title">Kode Peserta #{{ $peserta['kodepeserta'] }}</h5>
+            <h5 class="card-title">Kode Pembayaran #{{ $peserta['kodepeserta'] }}</h5>
             <h6>{{ $peserta['nama'] }}</h6>
           </div>
           <div class="card-body">
             <h5 class="card-title">Total Bayar + 3 Digit Kode Unik</h5>
             <h3 class="card-title">@currency($peserta['totalbayar'])</h5>
-            <p class="card-text">Silahkan klik tombol dibawah untuk memilih metode pembayaran.</p>
+            <p class="card-text">Silahkan klik tombol dibawah untuk memilih metode pembayaran. Anda akan menerima pemberitahuan via email yang anda daftarkan.</p>
             <button id="pay-button" class="btn btn-primary">Pilih Metode Pembayaran</button>
           </div>
         </div>

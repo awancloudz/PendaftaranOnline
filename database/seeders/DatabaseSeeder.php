@@ -54,6 +54,6 @@ class DatabaseSeeder extends Seeder
             'harga' => '100000'
         ]);
 
-        Peserta::factory(1000)->create();
+        //Peserta::factory(1000)->create();
     }
 }
