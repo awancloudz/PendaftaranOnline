@@ -68,9 +68,9 @@ class HomeController extends Controller
         Peserta::create($validatedData);
         
         //2. VALIDASI PEMBAYARAN
-        \Midtrans\Config::$serverKey = 'SB-Mid-server-MYkfBbwTKoYZOVi2ys6Rdck9';
+        \Midtrans\Config::$serverKey = 'Mid-server-HHv1WljQylXqs21Z-aJ55ADh';
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isProduction = true;
         // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
@@ -148,7 +148,27 @@ class HomeController extends Controller
     }
 
     public function verified(){
-        return redirect('/pendaftaran/finish')->with('success','Pendaftaran & Pembayaran Sukses, Bukti Pembayaran akan dikirim via Email. Terima Kasih.');
+        $order_id = request('order_id');
+        if($order_id != ''){
+            $notifikasi = Notifikasi::where('order_id', $order_id)->latest()->first();
+            $peserta = Peserta::where('kodepeserta', $order_id)->get();
+            $seleksi = json_decode($notifikasi);
+            if($seleksi->transaction_status == "settlement"){
+                return redirect('/pendaftaran/finish')->with('success','Pendaftaran & Pembayaran Sukses, Bukti Pembayaran akan dikirim via Email. Terima Kasih.');
+            }
+            else if($seleksi->transaction_status == "cancel"){
+                return redirect('/pendaftaran/finish')->with('cancel','Maaf, Pendaftaran & Pembayaran sudah dibatalkan.');
+            }
+            else if($seleksi->transaction_status == "pending"){
+                return view('pending', [
+                    'peserta' => $peserta,
+                    'notifikasi' => $notifikasi
+                ]);
+            }
+        }
+        else{
+            return redirect('/');
+        }
     }
 
     public function notifikasi(Request $request){
