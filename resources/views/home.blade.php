@@ -73,6 +73,9 @@
                 <label for="pilihan" class="form-label"><b>Pilihan Jadwal & Harga</b></label>
                 <div id="selectpilihan"></div>
             </div>
+            <div class="mb-3">
+                {!! htmlFormSnippet() !!}
+            </div>
             <button type="submit" class="btn btn-primary">Lanjut ke Pembayaran</button>
         </form>    
     </div>

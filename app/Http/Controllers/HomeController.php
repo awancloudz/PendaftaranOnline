@@ -56,6 +56,7 @@ class HomeController extends Controller
             'nostr' => 'required',
             'asalpengcab' => 'required',
             'provinsi' => 'required',
+            'g-recaptcha-response' => 'recaptcha',
         ]);
 
         $validatedData['kodepeserta'] = $kodepeserta;
