@@ -1,9 +1,7 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
+<div class="table-responsive">
             <h1 class="mb-3"></h1>
             <a href="/dashboard/peserta" class="btn btn-success"><span data-feather="arrow-left"></span> Kembali</a>
             <form action="/dashboard/peserta/{{ $peserta->id }}" method="post" class="d-inline">
@@ -14,7 +12,7 @@
             @if($peserta->statusbayar == 1)
             <a href="/dashboard/peserta/invoice/{{ $peserta->kodepeserta }}" class="btn btn-warning"><span data-feather="file-text"></span> Invoice</a>
             @endif
-            <table class="table table-striped table-md">
+            <table class="table table-striped table-sm mt-3">
                 <tr><td colspan="2" align="center">
                     <?php
                     echo DNS2D::getBarcodeHTML($peserta->kodepeserta, 'QRCODE');
@@ -44,7 +42,5 @@
                 </tr>
                 <tr><td><h5>Total Bayar</h5></td><td><h5>: @currency($peserta->totalbayar)</h5></td></tr>
             </table>
-        </div>
-    </div>
 </div>
 @endsection

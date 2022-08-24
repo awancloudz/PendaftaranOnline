@@ -16,7 +16,7 @@ class DashboardPesertaController extends Controller
     public function index()
     {
         return view('dashboard.peserta.index', [
-            'pesertas' => Peserta::latest()->paginate(15)
+            'pesertas' => Peserta::latest()->filter(request(['kodepeserta','statusbayar']))->paginate(15)->withQueryString()
         ]);
     }
 

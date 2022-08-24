@@ -2,7 +2,32 @@
 
 @section('container')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Data Peserta</h1>
+      <h1 class="h2">Data Peserta
+        @if(request('statusbayar') == "lunas")
+        - Lunas
+        @elseif(request('statusbayar') == "belum")
+        - Belum Lunas
+        @else
+        - Semua
+        @endif
+      </h1>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-2">
+        <a class="btn btn-outline-success mt-3" href="/dashboard/peserta?statusbayar=lunas">Lunas</a>
+        <a class="btn btn-outline-danger mt-3" href="/dashboard/peserta?statusbayar=belum">Belum</a>
+      </div>
+      <div class="col-md-6">
+          <form action="/dashboard/peserta">
+              @if(request('statusbayar'))
+                  <input type="hidden" name="statusbayar" value="{{ request('statusbayar') }}">
+              @endif
+              <div class="input-group mb-3 mt-3">
+                  <input type="text" class="form-control" placeholder="Cari kode peserta" name="kodepeserta" value="{{ request('kodepeserta') }}">
+                  <button class="btn btn-outline-primary" type="submit">Cari</button>
+              </div>
+          </form>
+      </div>
     </div>
     <div class="table-responsive">
       @if(session()->has('success'))
@@ -42,7 +67,7 @@
                 @endif
                 <td>@currency($peserta->totalbayar)</td>
                 <td>
-                    <a href="/dashboard/peserta/{{ $peserta->id }}" class="badge bg-info"><span data-feather="eye"></span></a>
+                    <a href="/dashboard/peserta/{{ $peserta->id }}" class="badge bg-warning"><span data-feather="eye"></span></a>
                     {{-- <a href="/dashboard/peserta/{{ $peserta->id }}/edit" class="badge bg-warning"><span data-feather="edit"></span></a> --}}
                     <form action="/dashboard/peserta/{{ $peserta->id }}" method="post" class="d-inline">
                         @method('delete')
@@ -55,7 +80,7 @@
           </tbody>
         </table>
         @else
-          <p class="text-center fs-4">Belum ada data peserta!</p>
+          <p class="text-center fs-4">Tidak ada data peserta!</p>
         @endif
     </div>
     <div class="d-flex justify-content-end">
